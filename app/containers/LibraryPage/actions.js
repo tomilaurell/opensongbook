@@ -4,14 +4,7 @@
  *
  */
 
-import { GET_BOOKS, LOAD_BOOKS } from './constants';
-
-export function fetchBooks(url) {
-  return {
-    type: GET_BOOKS,
-    url,
-  };
-}
+import { LOAD_BOOKS } from './constants';
 
 export function loadBooks() {
   return {

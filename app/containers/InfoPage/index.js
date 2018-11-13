@@ -66,6 +66,7 @@ export const UpdateSectionContainer = styled.div`
 
 export const TextContainer = styled.div`
   text-align: center;
+  font-size: 16px;
 `;
 
 export const ButtonContainer = styled.div`
@@ -97,6 +98,7 @@ export class InfoPage extends React.Component {
         console.log('SW Event:', 'onUpdated');
         // Reload the webpage to load into the new version
         // window.location.reload();
+        alert('Restart the app to finish update');
       },
       onUpdateFailed: () => {
         console.log('SW Event:', 'onUpdateFailed');

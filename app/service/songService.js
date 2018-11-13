@@ -1,3 +1,4 @@
+import crc32 from 'crc/crc32';
 import db from './mydatabase';
 
 export const getSong = (book, index) => {};
@@ -11,26 +12,38 @@ export const getLibrary = async () => {
 };
 
 export const getBook = async id => {
-  // FIXME : does not fetch with id yet
+  // FIXME : should use id in query
   const books = await db.table('books').toArray();
-  if (books.length === 0) {
-    books.push(generateSongBook());
+  const book = books.find(dbBook => dbBook.id === id);
+  if (book) {
+    return book;
   }
-  return books[0];
+  if (books.length > 0) {
+    return books[0];
+  }
+  return generateSongBook();
 };
 
 export const persistBook = async book => {
+  book.checksum = crc32(JSON.stringify(book));
   const books = await db.table('books').toArray();
   const existingBookWithSameName = books.find(
     dbBook => dbBook.title === book.title,
   );
   if (existingBookWithSameName) {
+    if (existingBookWithSameName.checksum === book.checksum) {
+      console.log('Checksum match, no need to update');
+      return existingBookWithSameName.id;
+    }
     console.log('Updating book', existingBookWithSameName.id);
     db.books.update(existingBookWithSameName.id, book);
     console.log('Book updated', existingBookWithSameName.id);
-  } else {
-    db.books.put(book);
+    return existingBookWithSameName.id;
   }
+  if (book.songs && book.songs.length > 0) {
+    return db.books.put(book);
+  }
+  return null;
 };
 
 export const parseHymnBook = rawBook => {

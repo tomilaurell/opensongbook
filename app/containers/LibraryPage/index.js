@@ -19,11 +19,12 @@ import LibraryBook from 'components/LibraryBook';
 import LoaderBook from 'components/LoaderBook';
 import PlusIcon from 'components/icons/PlusIcon';
 import JwModal from 'jw-react-modal';
+import { fetchBooksFromUrl } from 'containers/App/actions';
 import { makeSelectBooks, makeSelectFetchingBooksStatus } from './selectors';
 import reducer from './reducer';
 import saga from './saga';
 
-import { fetchBooks, loadBooks } from './actions';
+import { loadBooks } from './actions';
 import './modal.css';
 
 export const MainContainer = styled.div`
@@ -82,7 +83,7 @@ export const UrlHelpText = styled.div`
 export const UrlInput = styled.input`
   margin-top: 40px;
   line-height: 30px;
-  width: 80vw;
+  width: 100%;
   color: white;
   font-size: 20px;
   align-self: center;
@@ -170,7 +171,7 @@ const mapStateToProps = createPropsSelector({
 
 function mapDispatchToProps(dispatch) {
   return {
-    fetchBooks: url => dispatch(fetchBooks(url)),
+    fetchBooks: url => dispatch(fetchBooksFromUrl(url)),
     loadBooks: () => dispatch(loadBooks()),
     dispatch,
   };

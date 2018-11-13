@@ -1,15 +1,17 @@
 import { takeLatest, call, put } from 'redux-saga/effects';
+import { push } from 'react-router-redux';
+import {
+  FETCH_BOOKS_FROM_URL,
+  FETCH_BOOKS_FROM_URL_SUCCESS,
+  FETCH_BOOKS_FROM_URL_FAILURE,
+} from 'containers/App/constants';
 import {
   parseHymnBook,
   persistBook,
   getLibrary,
 } from '../../service/songService';
 import { loadBooks } from './actions';
-
 import {
-  GET_BOOKS,
-  GET_BOOKS_SUCCESS,
-  GET_BOOKS_FAILURE,
   LOAD_BOOKS,
   LOAD_BOOKS_SUCCESS,
   LOAD_BOOKS_FAILURE,
@@ -30,17 +32,18 @@ function* getBooksSaga(action) {
     const response = yield fetch(url);
     const data = yield response.text();
     const songBook = parseHymnBook(data);
-    yield persistBook(songBook);
+    const bookId = yield persistBook(songBook);
+    yield put(push(`/book/${bookId}`));
     yield put(loadBooks());
-    yield put({ type: GET_BOOKS_SUCCESS, payload: data });
+    yield put({ type: FETCH_BOOKS_FROM_URL_SUCCESS, payload: data });
   } catch (error) {
     console.log('RECEIVED ERROR', error);
-    yield put({ type: GET_BOOKS_FAILURE, error });
+    yield put({ type: FETCH_BOOKS_FROM_URL_FAILURE, error });
   }
 }
 
 // Individual exports for testing
 export default function* libraryPageSaga() {
-  yield takeLatest(GET_BOOKS, getBooksSaga);
+  yield takeLatest(FETCH_BOOKS_FROM_URL, getBooksSaga);
   yield takeLatest(LOAD_BOOKS, loadBooksSaga);
 }

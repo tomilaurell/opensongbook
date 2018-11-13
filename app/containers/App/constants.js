@@ -8,3 +8,9 @@
  * Follow this format:
  * export const YOUR_ACTION_CONSTANT = 'yourproject/YourContainer/YOUR_ACTION_CONSTANT';
  */
+
+export const FETCH_BOOKS_FROM_URL = 'app/App/FETCH_BOOKS_FROM_URL';
+export const FETCH_BOOKS_FROM_URL_SUCCESS =
+  'app/App/FETCH_BOOKS_FROM_URL_SUCCESS';
+export const FETCH_BOOKS_FROM_URL_FAILURE =
+  'app/App/FETCH_BOOKS_FROM_URL_FAILURE';

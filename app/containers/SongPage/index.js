@@ -10,6 +10,8 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { createPropsSelector } from 'reselect-immutable-helpers';
 import { compose } from 'redux';
+import queryString from 'query-string';
+import { fetchBooksFromUrl } from 'containers/App/actions';
 
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
@@ -28,8 +30,14 @@ export const MainContainer = styled.div``;
 /* eslint-disable react/prefer-stateless-function */
 export class SongPage extends React.Component {
   componentDidMount() {
-    const { bookId } = this.props.match.params;
-    this.props.fetchBook(bookId);
+    const params = queryString.parse(this.props.location.search);
+    const dataUrl = params.url;
+    if (dataUrl) {
+      this.props.fetchBooks(dataUrl);
+    } else {
+      const { bookId } = this.props.match.params;
+      this.props.fetchBook(bookId);
+    }
   }
 
   render() {
@@ -59,6 +67,7 @@ const mapStateToProps = createPropsSelector({
 function mapDispatchToProps(dispatch) {
   return {
     fetchBook: id => dispatch(fetchBook(id)),
+    fetchBooks: url => dispatch(fetchBooksFromUrl(url)),
     dispatch,
   };
 }

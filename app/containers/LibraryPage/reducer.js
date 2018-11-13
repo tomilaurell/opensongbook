@@ -5,14 +5,15 @@
  */
 
 import { fromJS } from 'immutable';
-import { GET_BOOKS_SUCCESS, LOAD_BOOKS_SUCCESS } from './constants';
+import { FETCH_BOOKS_FROM_URL_SUCCESS } from 'containers/App/constants';
+import { LOAD_BOOKS_SUCCESS } from './constants';
 
 export const initialState = fromJS({});
 
 function libraryPageReducer(state = initialState, action) {
   switch (action.type) {
-    case GET_BOOKS_SUCCESS:
-      console.log('GET_BOOKS_SUCCESS');
+    case FETCH_BOOKS_FROM_URL_SUCCESS:
+      console.log('FETCH_BOOKS_FROM_URL_SUCCESS');
       return state.setIn(['fething_books_status'], 'FINISHED');
     case LOAD_BOOKS_SUCCESS:
       console.log('LOAD_BOOKS_SUCCESS');
