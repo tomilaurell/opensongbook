@@ -1,0 +1,5 @@
+.jw-modal-body {
+  background-color: #353535 !important;
+  display: flex;
+  flex-direction: column;
+}

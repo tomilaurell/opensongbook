@@ -2,13 +2,24 @@ import { createGlobalStyle } from 'styled-components';
 
 const GlobalStyle = createGlobalStyle`
   html,
-  body {
-    height: 100%;
-    width: 100%;
+  html {
+    top: 0;
+    bottom: 0;
+    position: fixed;
+    left: 0px;
+    right: 0px;
+    overflow-y: hidden;
   }
 
   body {
-    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    top: 0;
+    bottom: 0;
+    position: fixed;
+    left: 0px;
+    right: 0px;
+    overflow-y: hidden;
+    background-color: #000000;
+    overscroll-behavior: none;
   }
 
   body.fontLoaded {

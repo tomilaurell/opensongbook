@@ -111,6 +111,9 @@ module.exports = require('./webpack.base.babel')({
 
       // Removes warning for about `additional` section usage
       safeToUseOptionalCaches: true,
+      ServiceWorker: {
+        events: true,
+      },
     }),
 
     new CompressionPlugin({
@@ -121,11 +124,11 @@ module.exports = require('./webpack.base.babel')({
     }),
 
     new WebpackPwaManifest({
-      name: 'React Boilerplate',
-      short_name: 'React BP',
-      description: 'My React Boilerplate-based project!',
-      background_color: '#fafafa',
-      theme_color: '#b1624d',
+      name: 'Songbook',
+      short_name: 'Songbook',
+      description: 'Open Songbook',
+      background_color: '#000000',
+      theme_color: '#000000',
       inject: true,
       ios: true,
       icons: [
