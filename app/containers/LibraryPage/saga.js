@@ -32,7 +32,7 @@ function* getBooksSaga(action) {
     const response = yield fetch(url);
     const data = yield response.text();
     const songBook = parseHymnBook(data);
-    const bookId = yield persistBook(songBook);
+    const bookId = yield persistBook(songBook, url);
     yield put(push(`/book/${bookId}`));
     yield put(loadBooks());
     yield put({ type: FETCH_BOOKS_FROM_URL_SUCCESS, payload: data });

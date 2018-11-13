@@ -24,8 +24,9 @@ export const getBook = async id => {
   return generateSongBook();
 };
 
-export const persistBook = async book => {
+export const persistBook = async (book, url) => {
   book.checksum = crc32(JSON.stringify(book));
+  book.url = url;
   const books = await db.table('books').toArray();
   const existingBookWithSameName = books.find(
     dbBook => dbBook.title === book.title,
