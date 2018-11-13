@@ -9,7 +9,6 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import Verse from 'components/Verse';
 import SongIndexInput from 'components/SongIndexInput';
-import JwModal from 'jw-react-modal';
 import ReactDOM from 'react-dom';
 import { withOnScroll } from 'components/ScrollDetector';
 import './modal.css';
@@ -56,21 +55,14 @@ class Song extends React.Component {
   constructor(props) {
     super(props);
     this.forwardScroll = this.forwardScroll.bind(this);
-    this.openChangeSongModal = this.openChangeSongModal.bind(this);
     this.myContentRef = React.createRef();
   }
 
   handleChangeSong = event => {
     if (event.target.value) {
       this.props.changeSong(event.target.value);
-      JwModal.close('jw-modal-1')(event);
       event.target.value = '';
     }
-  };
-
-  openChangeSongModal = event => {
-    JwModal.open('jw-modal-1')(event);
-    this.changeSongInput.focus();
   };
 
   componentDidMount() {
@@ -107,17 +99,6 @@ class Song extends React.Component {
       >
         <SongContainer id="SongContainer" ref={this.myContentRef}>
           <SongIndexInput index={index} onBlur={this.handleChangeSong} />
-          <JwModal id="jw-modal-1">
-            <IndexInput
-              id="changeSongInput"
-              ref={input => {
-                this.changeSongInput = input;
-              }}
-              type="number"
-              onBlur={this.handleChangeSong}
-              placeholder="123"
-            />
-          </JwModal>
           <VersesContainer>
             {verses.map(verse => (
               <Verse

@@ -22,6 +22,10 @@ export const BookContainer = styled.div`
   border-radius: 8px;
   border-right: 1px solid #ababab;
   border-bottom: 1px solid #ababab;
+  max-width: 140px;
+  font-size: 20px;
+  padding-left: 5px;
+  padding-right: 5px;
 `;
 
 function LibraryBook({ title, id }) {

@@ -17,11 +17,14 @@ import injectReducer from 'utils/injectReducer';
 import BottomBar from 'components/BottomBar';
 import LibraryBook from 'components/LibraryBook';
 import LoaderBook from 'components/LoaderBook';
+import PlusIcon from 'components/icons/PlusIcon';
+import JwModal from 'jw-react-modal';
 import { makeSelectBooks, makeSelectFetchingBooksStatus } from './selectors';
 import reducer from './reducer';
 import saga from './saga';
 
 import { fetchBooks, loadBooks } from './actions';
+import './modal.css';
 
 export const MainContainer = styled.div`
   display: flex;
@@ -42,6 +45,13 @@ export const TitleContainer = styled.div`
   border-bottom: solid 2px #2b2b2b;
 `;
 
+export const PlusIconContainer = styled.div`
+  position: fixed;
+  top: 20px;
+  right: 10px;
+  cursor: pointer;
+`;
+
 export const ContentContainer = styled.div`
   margin-top: 60px;
   height: 100vh;
@@ -58,9 +68,33 @@ export const BookContainer = styled.div`
   margin-top: 5vh;
 `;
 
+export const ModalContent = styled.div`
+  padding-top: 30px;
+  padding-bottom: 30px;
+`;
+
+export const UrlHelpText = styled.div`
+  color: white;
+  font-size: 20px;
+  text-align: center;
+`;
+
+export const UrlInput = styled.input`
+  margin-top: 40px;
+  line-height: 30px;
+  width: 80vw;
+  color: white;
+  font-size: 20px;
+  align-self: center;
+`;
+
 /* eslint-disable react/prefer-stateless-function */
 export class LibraryPage extends React.Component {
-  // Test with https://s3.eu-central-1.amazonaws.com/opensongbooks/Virsikirja_1992.song
+  constructor(props) {
+    super(props);
+    this.openAddBookModal = this.openAddBookModal.bind(this);
+    this.handleAddBook = this.handleAddBook.bind(this);
+  }
 
   componentDidMount() {
     const params = queryString.parse(this.props.location.search);
@@ -71,6 +105,19 @@ export class LibraryPage extends React.Component {
     this.props.loadBooks();
   }
 
+  openAddBookModal = event => {
+    console.log('openAddBookModal');
+    JwModal.open('jw-modal-1');
+  };
+
+  handleAddBook = event => {
+    if (event.target.value) {
+      this.props.fetchBooks(event.target.value);
+      JwModal.close('jw-modal-1')(event);
+      event.target.value = '';
+    }
+  };
+
   render() {
     const { books, fetchStatus, location } = this.props;
     const params = queryString.parse(location.search);
@@ -78,19 +125,32 @@ export class LibraryPage extends React.Component {
     return (
       <MainContainer>
         <TitleContainer>Open Songbook</TitleContainer>
+        <PlusIconContainer>
+          <PlusIcon onClick={JwModal.open('jw-modal-1')} />
+        </PlusIconContainer>
+        <JwModal id="jw-modal-1">
+          <ModalContent>
+            <UrlHelpText>Type link to the book and close modal.</UrlHelpText>
+            <UrlInput
+              type="url"
+              onBlur={this.handleAddBook}
+              placeholder="http://something..."
+            />
+          </ModalContent>
+        </JwModal>
         <ContentContainer>
           {books &&
             books.map((book, index) => (
-              <BookContainer key={`${book.id}_${index}`}>
+              <BookContainer key={`${book.title}`}>
                 <LibraryBook {...book} />
               </BookContainer>
             ))}
           {dataUrl &&
             fetchStatus !== 'FINISHED' && (
-            <BookContainer>
-              <LoaderBook dataUrl={dataUrl} />
-            </BookContainer>
-          )}
+              <BookContainer>
+                <LoaderBook dataUrl={dataUrl} />
+              </BookContainer>
+            )}
         </ContentContainer>
         <BottomBar currentPage="library" showBars />
       </MainContainer>

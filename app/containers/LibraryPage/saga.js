@@ -1,4 +1,4 @@
-import { takeLatest, call, put, select } from 'redux-saga/effects';
+import { takeLatest, call, put } from 'redux-saga/effects';
 import {
   parseHymnBook,
   persistBook,
@@ -18,15 +18,6 @@ import {
 function* loadBooksSaga() {
   try {
     const books = yield call(getLibrary);
-    /*
-    const library = [];
-    library.push(books[0]);
-    library.push(books[0]);
-    library.push(books[0]);
-    library.push(books[0]);
-    library.push(books[0]);
-    library.push(books[0]);
-    */
     yield put({ type: LOAD_BOOKS_SUCCESS, payload: books });
   } catch (errorMessage) {
     yield put({ type: LOAD_BOOKS_FAILURE, errorMessage });
@@ -39,7 +30,7 @@ function* getBooksSaga(action) {
     const response = yield fetch(url);
     const data = yield response.text();
     const songBook = parseHymnBook(data);
-    persistBook(songBook);
+    yield persistBook(songBook);
     yield put(loadBooks());
     yield put({ type: GET_BOOKS_SUCCESS, payload: data });
   } catch (error) {

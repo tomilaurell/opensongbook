@@ -14,11 +14,65 @@ import { compose } from 'redux';
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
 import BottomBar from 'components/BottomBar';
+import Button from 'components/Button';
 import makeSelectInfoPage from './selectors';
 import reducer from './reducer';
 import saga from './saga';
 
 export const MainContainer = styled.div``;
+
+export const TitleContainer = styled.div`
+  position: fixed;
+  top: 0px;
+  background-color: black;
+  color: white;
+  font-size: 16px;
+  font-weight: 600;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  width: 100%;
+  text-align: center;
+  height: 40px;
+  border-bottom: solid 2px #2b2b2b;
+`;
+
+export const ContentContainer = styled.div`
+  margin-top: 40px;
+  height: calc(100vh - 40px - 40px);
+  background-color: black;
+  color: white;
+  overflow-y: scroll;
+  -webkit-overflow-scrolling: touch;
+`;
+
+export const AppNameContainer = styled.div`
+  margin-top: 20px;
+  color: white;
+  font-size: 20px;
+  font-weight: 600;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  width: 100%;
+  text-align: center;
+`;
+
+export const UpdateSectionContainer = styled.div`
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  padding-left: 30px;
+  padding-right: 30px;
+`;
+
+export const TextContainer = styled.div`
+  text-align: center;
+`;
+
+export const ButtonContainer = styled.div`
+  width: 100px;
+  align-self: center;
+  margin-top: 20px;
+`;
 
 /* eslint-disable react/prefer-stateless-function */
 export class InfoPage extends React.Component {
@@ -28,7 +82,6 @@ export class InfoPage extends React.Component {
   }
 
   updateApp() {
-    console.log('updateApp');
     const runtime = require('offline-plugin/runtime'); // eslint-disable-line global-require
     // require('offline-plugin/runtime').install(); // eslint-disable-line global-require
     runtime.install({
@@ -54,7 +107,19 @@ export class InfoPage extends React.Component {
   render() {
     return (
       <MainContainer>
-        <button type="button" onClick={this.updateApp}>Update!</button>
+        <TitleContainer>Info</TitleContainer>
+        <ContentContainer>
+          <AppNameContainer>Open Songbook</AppNameContainer>
+          <UpdateSectionContainer>
+            <TextContainer>
+              To update to app just click the following button and restart the
+              app.
+            </TextContainer>
+            <ButtonContainer>
+              <Button value="Update!" onClick={this.updateApp} />
+            </ButtonContainer>
+          </UpdateSectionContainer>
+        </ContentContainer>
         <BottomBar currentPage="info" showBars />
       </MainContainer>
     );
