@@ -7,6 +7,7 @@
 import React from 'react';
 // import PropTypes from 'prop-types';
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 import FontIcon from 'components/icons/FontIcon';
 import SearchIcon from 'components/icons/SearchIcon';
 
@@ -51,7 +52,11 @@ class TopBar extends React.Component {
 
     return (
       <MainContainer style={mainContainerStyles}>
-        {showBars && <SearchIcon />}
+        {showBars && (
+          <Link to="/search" style={{ display: 'flex' }}>
+            <SearchIcon />
+          </Link>
+        )}
         <TitleContainer style={titleContainerStyles}>{title}</TitleContainer>
         {showBars && <FontIcon />}
       </MainContainer>

@@ -29,7 +29,7 @@ export const MainContainer = styled.div`
 
 const linkStyles = {
   display: 'flex',
-}
+};
 
 /* eslint-disable react/prefer-stateless-function */
 class BottomBar extends React.Component {

@@ -5,7 +5,7 @@
  */
 
 import React, { Component } from 'react';
-// import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import Swipeable from 'react-swipeable';
 import Song from 'components/Song';
@@ -250,3 +250,7 @@ export default class SongBook extends Component {
     );
   }
 }
+
+SongBook.propTypes = {
+  currentSong: PropTypes.number.isRequired,
+};

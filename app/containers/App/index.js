@@ -13,6 +13,7 @@ import { Switch, Route } from 'react-router-dom';
 import SongPage from 'containers/SongPage/Loadable';
 import LibraryPage from 'containers/LibraryPage/Loadable';
 import InfoPage from 'containers/InfoPage/Loadable';
+import SearchPage from 'containers/SearchPage/Loadable';
 import NotFoundPage from 'containers/NotFoundPage/Loadable';
 
 import GlobalStyle from '../../global-styles';
@@ -24,8 +25,10 @@ export default function App() {
         <Route exact path="/" component={SongPage} />
         <Route exact path="/book" component={SongPage} />
         <Route exact path="/book/:bookId" component={SongPage} />
+        <Route exact path="/book/:bookId/:songIndex" component={SongPage} />
         <Route exact path="/library" component={LibraryPage} />
         <Route exact path="/info" component={InfoPage} />
+        <Route exact path="/search" component={SearchPage} />
         <Route component={NotFoundPage} />
       </Switch>
       <GlobalStyle />

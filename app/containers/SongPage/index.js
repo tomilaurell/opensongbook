@@ -41,12 +41,14 @@ export class SongPage extends React.Component {
   }
 
   render() {
+    const { songIndex } = this.props.match.params;
+    const currentSong = parseInt(songIndex, 0) || 1;
     return (
       <MainContainer>
         {this.props.songbook && (
           <SongBook
             {...this.props.songbook}
-            currentSong={1}
+            currentSong={currentSong}
             userSettings={userSettings}
           />
         )}
