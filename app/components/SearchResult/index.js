@@ -14,6 +14,7 @@ const MainContainer = styled.div`
   background-color: #1a1a1a;
   border-bottom: solid 2px #2b2b2b;
   padding: 10px;
+  width: 100vw;
 `;
 
 const FirstLine = styled.div`

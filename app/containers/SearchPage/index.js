@@ -20,7 +20,11 @@ import makeSelectSearchPage from './selectors';
 import reducer from './reducer';
 import saga from './saga';
 
-const MainContainer = styled.div``;
+const MainContainer = styled.div`
+  background-color: black;
+  height: 100vh;
+  widht: 100vw;
+`;
 
 const TitleContainer = styled.div`
   position: fixed;
@@ -54,10 +58,6 @@ const ContentContainer = styled.div`
   color: white;
   overflow-y: scroll;
   -webkit-overflow-scrolling: touch;
-`;
-
-const ResultsContainer = styled.div`
-  width: 100vw;
 `;
 
 /* eslint-disable react/prefer-stateless-function */
@@ -94,10 +94,7 @@ export class SearchPage extends React.Component {
           <SearchForm handleSearch={this.handleSearch} />
         </SearchFormContainer>
         <ContentContainer>
-          <ResultsContainer>
-            {term &&
-              books && <SearchResults id={id} term={term} books={books} />}
-          </ResultsContainer>
+          {term && books && <SearchResults id={id} term={term} books={books} />}
         </ContentContainer>
       </MainContainer>
     );
