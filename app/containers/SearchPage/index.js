@@ -13,6 +13,7 @@ import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
 import { getBook } from 'service/songService';
+import { disableBodyScroll, clearAllBodyScrollLocks } from 'body-scroll-lock';
 
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
@@ -83,6 +84,11 @@ export class SearchPage extends React.Component {
     this.setState({
       books: [book],
     });
+    disableBodyScroll(document.querySelector('#targetElementId'));
+  }
+
+  componentWillUnmount() {
+    clearAllBodyScrollLocks();
   }
 
   render() {
@@ -93,7 +99,7 @@ export class SearchPage extends React.Component {
         <SearchFormContainer>
           <SearchForm handleSearch={this.handleSearch} />
         </SearchFormContainer>
-        <ContentContainer>
+        <ContentContainer id="targetElementId">
           {term && books && <SearchResults id={id} term={term} books={books} />}
         </ContentContainer>
       </MainContainer>
