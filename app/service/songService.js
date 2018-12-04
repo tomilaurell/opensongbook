@@ -51,7 +51,7 @@ export const parseHymnBook = rawBook => {
   const rows = rawBook.split('\n');
   const rawSongs = [];
   let rSong = [];
-  for (let rowIndex = 1; rowIndex < rows.length; rowIndex++) {
+  for (let rowIndex = 2; rowIndex < rows.length; rowIndex++) {
     const row = rows[rowIndex].trim();
     if (row) {
       try {
@@ -87,8 +87,10 @@ export const parseHymnBook = rawBook => {
     songs.push(song);
   });
   const title = rows[0].trim();
+  const coverImage = rows[1];
   return {
     title,
+    coverImage,
     songs,
   };
 };

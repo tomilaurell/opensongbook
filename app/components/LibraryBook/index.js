@@ -9,31 +9,18 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 
-export const MainContainer = styled.div`
-`;
+export const MainContainer = styled.div``;
 
-export const BookContainer = styled.div`
-  background-color: #353535;
-  color: white;
-  width: 35vw;
-  text-align: center;
-  height: 180px;
-  padding-top: 30px;
-  border-radius: 8px;
-  border-right: 1px solid #ababab;
-  border-bottom: 1px solid #ababab;
-  max-width: 140px;
-  font-size: 20px;
-  padding-left: 5px;
-  padding-right: 5px;
-`;
+const coverStyles = {
+  maxWidth: '35vw',
+};
 
-function LibraryBook({ title, id }) {
+function LibraryBook({ title, id, coverImage }) {
   const linkToBook = `/book/${id}`;
   return (
     <MainContainer>
       <Link to={linkToBook}>
-        <BookContainer>{title}</BookContainer>
+        <img src={`${coverImage}`} alt={title} style={coverStyles} />
       </Link>
     </MainContainer>
   );
