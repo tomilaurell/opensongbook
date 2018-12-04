@@ -16,7 +16,7 @@ import { fetchBooksFromUrl } from 'containers/App/actions';
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
 import SongBook from 'components/SongBook';
-import { fetchBook } from './actions';
+import { fetchBook, cleanStore } from './actions';
 import { makeSelectBook } from './selectors';
 import reducer from './reducer';
 import saga from './saga';
@@ -25,7 +25,11 @@ const userSettings = {
   fontSize: 20,
 };
 
-export const MainContainer = styled.div``;
+export const MainContainer = styled.div`
+  background-color: black;
+  height: 100vh;
+  widht: 100vw;
+`;
 
 /* eslint-disable react/prefer-stateless-function */
 export class SongPage extends React.Component {
@@ -38,6 +42,10 @@ export class SongPage extends React.Component {
       const { bookId } = this.props.match.params;
       this.props.fetchBook(bookId);
     }
+  }
+
+  componentWillUnmount() {
+    this.props.cleanStore();
   }
 
   render() {
@@ -70,6 +78,7 @@ function mapDispatchToProps(dispatch) {
   return {
     fetchBook: id => dispatch(fetchBook(id)),
     fetchBooks: url => dispatch(fetchBooksFromUrl(url)),
+    cleanStore: () => dispatch(cleanStore()),
     dispatch,
   };
 }

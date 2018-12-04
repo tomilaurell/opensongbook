@@ -19,7 +19,11 @@ import makeSelectInfoPage from './selectors';
 import reducer from './reducer';
 import saga from './saga';
 
-export const MainContainer = styled.div``;
+export const MainContainer = styled.div`
+  background-color: black;
+  height: 100vh;
+  widht: 100vw;
+`;
 
 export const TitleContainer = styled.div`
   position: fixed;
@@ -128,9 +132,7 @@ export class InfoPage extends React.Component {
   }
 }
 
-InfoPage.propTypes = {
-  dispatch: PropTypes.func.isRequired,
-};
+InfoPage.propTypes = {};
 
 const mapStateToProps = createStructuredSelector({
   infoPage: makeSelectInfoPage(),

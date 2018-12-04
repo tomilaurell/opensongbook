@@ -30,6 +30,9 @@ import './modal.css';
 export const MainContainer = styled.div`
   display: flex;
   flex-direction: column;
+  background-color: black;
+  height: 100vh;
+  widht: 100vw;
 `;
 
 export const TitleContainer = styled.div`
