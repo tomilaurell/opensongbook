@@ -13,6 +13,7 @@ provider:
   name: aws
   runtime: nodejs8.10
   region: eu-west-1
+  stage: production
 
 resources:
   Resources:

@@ -14,3 +14,5 @@ export const FETCH_BOOKS_FROM_URL_SUCCESS =
   'app/App/FETCH_BOOKS_FROM_URL_SUCCESS';
 export const FETCH_BOOKS_FROM_URL_FAILURE =
   'app/App/FETCH_BOOKS_FROM_URL_FAILURE';
+export const UNSHORTENER_ENDPOINT =
+  'https://3aa3nsaxzg.execute-api.eu-west-1.amazonaws.com/production/unshort';

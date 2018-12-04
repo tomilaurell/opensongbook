@@ -91,6 +91,8 @@ export const UrlInput = styled.input`
 
 /* eslint-disable react/prefer-stateless-function */
 export class LibraryPage extends React.Component {
+  state = {};
+
   constructor(props) {
     super(props);
     this.openAddBookModal = this.openAddBookModal.bind(this);
@@ -114,6 +116,9 @@ export class LibraryPage extends React.Component {
   handleAddBook = event => {
     if (event.target.value) {
       this.props.fetchBooks(event.target.value);
+      this.setState({
+        loadingBook: event.target.value,
+      });
       JwModal.close('jw-modal-1')(event);
       event.target.value = '';
     }
@@ -121,6 +126,7 @@ export class LibraryPage extends React.Component {
 
   render() {
     const { books, fetchStatus, location } = this.props;
+    const { loadingBook } = this.state;
     const params = queryString.parse(location.search);
     const dataUrl = params.url;
     return (
@@ -131,11 +137,13 @@ export class LibraryPage extends React.Component {
         </PlusIconContainer>
         <JwModal id="jw-modal-1">
           <ModalContent>
-            <UrlHelpText>Type link to the book and close modal.</UrlHelpText>
+            <UrlHelpText>
+              Type short link to the book and close modal.
+            </UrlHelpText>
             <UrlInput
               type="url"
               onBlur={this.handleAddBook}
-              placeholder="http://something..."
+              placeholder="something"
             />
           </ModalContent>
         </JwModal>
@@ -152,6 +160,11 @@ export class LibraryPage extends React.Component {
                 <LoaderBook dataUrl={dataUrl} />
               </BookContainer>
             )}
+          {loadingBook && (
+            <BookContainer>
+              <LoaderBook dataUrl={loadingBook} />
+            </BookContainer>
+          )}
         </ContentContainer>
         <BottomBar currentPage="library" showBars />
       </MainContainer>
