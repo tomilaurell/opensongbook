@@ -1,10 +1,18 @@
 import { from } from 'rxjs';
-import { filter, map } from 'rxjs/operators';
+import { filter, map, flatMap } from 'rxjs/operators';
 
 export const searchSongs = (books, term) => {
   const lowCaseTerm = term.toLowerCase();
-  const book = books[0];
-  const stream = from(book.songs).pipe(
+  const stream = from(books).pipe(
+    map(book =>
+      book.songs.map(song => {
+        const mappedSong = Object.assign({}, song);
+        mappedSong.bookTitle = book.title;
+        mappedSong.bookIndex = book.id;
+        return mappedSong;
+      }),
+    ),
+    flatMap(songs => songs),
     filter(song => {
       const matchedVerse = song.verses.find(verse =>
         verse.sentences.find(
@@ -12,12 +20,6 @@ export const searchSongs = (books, term) => {
         ),
       );
       return !!matchedVerse;
-    }),
-    map(song => {
-      const hitSong = Object.assign({}, song);
-      hitSong.bookTitle = book.title;
-      hitSong.id = book.id;
-      return hitSong;
     }),
   );
   return stream;

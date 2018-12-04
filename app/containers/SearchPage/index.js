@@ -12,7 +12,7 @@ import SearchResults from 'components/SearchResults';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
-import { getBook } from 'service/songService';
+import { getLibrary } from 'service/songService';
 import { disableBodyScroll, clearAllBodyScrollLocks } from 'body-scroll-lock';
 
 import injectSaga from 'utils/injectSaga';
@@ -80,9 +80,9 @@ export class SearchPage extends React.Component {
   }
 
   async componentDidMount() {
-    const book = await getBook(this.state.id);
+    const books = await getLibrary();
     this.setState({
-      books: [book],
+      books,
     });
     disableBodyScroll(document.querySelector('#targetElementId'));
   }
