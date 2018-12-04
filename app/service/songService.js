@@ -14,7 +14,7 @@ export const getLibrary = async () => {
 export const getBook = async id => {
   // FIXME : should use id in query
   const books = await db.table('books').toArray();
-  const book = books.find(dbBook => dbBook.id === id);
+  const book = books.find(dbBook => Number(dbBook.id) === Number(id));
   if (book) {
     return book;
   }

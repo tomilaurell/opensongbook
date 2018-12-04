@@ -27,7 +27,7 @@ export const SongContainer = styled.div`
   padding-left: 25px;
   padding-right: 25px;
   padding-top: 60px;
-  padding-bottom: 100px;
+  padding-bottom: 130px;
   min-height: calc(100vh + 2px);
   color: white;
   background-color: black;
