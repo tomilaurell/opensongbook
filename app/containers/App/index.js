@@ -14,6 +14,7 @@ import SongPage from 'containers/SongPage/Loadable';
 import LibraryPage from 'containers/LibraryPage/Loadable';
 import InfoPage from 'containers/InfoPage/Loadable';
 import SearchPage from 'containers/SearchPage/Loadable';
+import SettingsPage from 'containers/SettingsPage/Loadable';
 import NotFoundPage from 'containers/NotFoundPage/Loadable';
 
 import GlobalStyle from '../../global-styles';
@@ -29,6 +30,7 @@ export default function App() {
         <Route exact path="/library" component={LibraryPage} />
         <Route exact path="/info" component={InfoPage} />
         <Route exact path="/search" component={SearchPage} />
+        <Route exact path="/settings" component={SettingsPage} />
         <Route component={NotFoundPage} />
       </Switch>
       <GlobalStyle />

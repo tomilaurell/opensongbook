@@ -58,7 +58,11 @@ class TopBar extends React.Component {
           </Link>
         )}
         <TitleContainer style={titleContainerStyles}>{title}</TitleContainer>
-        {showBars && <FontIcon />}
+        {showBars && (
+          <Link to="/settings" style={{ display: 'flex' }}>
+            <FontIcon />
+          </Link>
+        )}
       </MainContainer>
     );
   }
