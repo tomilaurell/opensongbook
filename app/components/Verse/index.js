@@ -24,7 +24,7 @@ export const IndexContainer = styled.div`
 function Verse({ index, sentences }) {
   const themeContext = useContext(ThemeContext);
   const styles = {
-    fontSize: `${themeContext.fontSize}`,
+    fontSize: `${themeContext.fontSize}px`,
   };
   return (
     <MainContainer style={styles}>
