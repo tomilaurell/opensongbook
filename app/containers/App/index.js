@@ -16,24 +16,29 @@ import InfoPage from 'containers/InfoPage/Loadable';
 import SearchPage from 'containers/SearchPage/Loadable';
 import SettingsPage from 'containers/SettingsPage/Loadable';
 import NotFoundPage from 'containers/NotFoundPage/Loadable';
+import { ThemeProvider } from 'components/ThemeContext';
 
 import GlobalStyle from '../../global-styles';
 
-export default function App() {
+const App = function App() {
   return (
     <div>
-      <Switch>
-        <Route exact path="/" component={SongPage} />
-        <Route exact path="/book" component={SongPage} />
-        <Route exact path="/book/:bookId" component={SongPage} />
-        <Route exact path="/book/:bookId/:songIndex" component={SongPage} />
-        <Route exact path="/library" component={LibraryPage} />
-        <Route exact path="/info" component={InfoPage} />
-        <Route exact path="/search" component={SearchPage} />
-        <Route exact path="/settings" component={SettingsPage} />
-        <Route component={NotFoundPage} />
-      </Switch>
+      <ThemeProvider>
+        <Switch>
+          <Route exact path="/" component={SongPage} />
+          <Route exact path="/book" component={SongPage} />
+          <Route exact path="/book/:bookId" component={SongPage} />
+          <Route exact path="/book/:bookId/:songIndex" component={SongPage} />
+          <Route exact path="/library" component={LibraryPage} />
+          <Route exact path="/info" component={InfoPage} />
+          <Route exact path="/search" component={SearchPage} />
+          <Route exact path="/settings" component={SettingsPage} />
+          <Route component={NotFoundPage} />
+        </Switch>
+      </ThemeProvider>
       <GlobalStyle />
     </div>
   );
-}
+};
+
+export default App;

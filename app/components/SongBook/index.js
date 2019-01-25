@@ -206,7 +206,6 @@ export default class SongBook extends Component {
             swipingHorizontally={this.state.swipingHorizontally}
             key={song.index}
             changeSong={this.changeSong}
-            userSettings={this.props.userSettings}
             {...song}
           />
         );

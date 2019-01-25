@@ -4,10 +4,11 @@
  *
  */
 
-import React from 'react';
+import React, { useContext } from 'react';
 // import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import Sentence from 'components/Sentence';
+import { ThemeContext } from 'components/ThemeContext';
 
 export const MainContainer = styled.div`
   padding-top: 17px;
@@ -20,9 +21,10 @@ export const IndexContainer = styled.div`
   font-size: 17px;
 `;
 
-function Verse({ index, sentences, userSettings }) {
+function Verse({ index, sentences }) {
+  const themeContext = useContext(ThemeContext);
   const styles = {
-    fontSize: `${userSettings.fontSize}px`,
+    fontSize: `${themeContext.fontSize}`,
   };
   return (
     <MainContainer style={styles}>
@@ -30,7 +32,7 @@ function Verse({ index, sentences, userSettings }) {
       {sentences.map((text, sentenceIndex) => {
         const prefix = sentenceIndex === 0 ? `${index}.  ` : '';
         const key = `${index}.${sentenceIndex}`;
-        return <Sentence key={key} text={text} userSettings={userSettings} />;
+        return <Sentence key={key} text={text} />;
       })}
     </MainContainer>
   );

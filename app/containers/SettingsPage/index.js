@@ -62,34 +62,23 @@ const ContentContainer = styled.div`
   padding: 5px;
 `;
 
-export class SettingsPage extends React.Component {
-  constructor(props) {
-    super(props);
-    this.handleFontSizeChange = this.handleFontSizeChange.bind(this);
-  }
-
-  handleFontSizeChange(fontSize) {
-    console.log('handleFontSizeChange', fontSize);
-  }
-
-  render() {
-    return (
-      <MainContainer>
-        <TitleContainer>
-          <TitleText>Settings</TitleText>
-          <BackLinkContainer>
-            <Link to="/book">
-              <BackLink>Ready</BackLink>
-            </Link>
-          </BackLinkContainer>
-        </TitleContainer>
-        <ContentContainer>
-          <SettingsForm />
-        </ContentContainer>
-      </MainContainer>
-    );
-  }
-}
+const SettingsPage = function SettingsPage() {
+  return (
+    <MainContainer>
+      <TitleContainer>
+        <TitleText>Settings</TitleText>
+        <BackLinkContainer>
+          <Link to="/book">
+            <BackLink>Ready</BackLink>
+          </Link>
+        </BackLinkContainer>
+      </TitleContainer>
+      <ContentContainer>
+        <SettingsForm />
+      </ContentContainer>
+    </MainContainer>
+  );
+};
 
 SettingsPage.propTypes = {};
 

@@ -4,10 +4,11 @@
  *
  */
 
-import React, { useState } from 'react';
+import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { Dropdown } from 'semantic-ui-react';
+import { ThemeContext } from 'components/ThemeContext';
 
 const MainContainer = styled.div`
   color: white;
@@ -41,7 +42,9 @@ const fontSizeOptions = [
 ];
 
 function SettingsForm() {
-  const [fontSize, setFontSize] = useState('20px');
+  const themeContext = useContext(ThemeContext);
+  const { fontSize, setFontSize } = themeContext;
+  console.log('themeContext', themeContext);
 
   return (
     <MainContainer>

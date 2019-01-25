@@ -85,10 +85,7 @@ class Song extends React.Component {
   };
 
   render() {
-    const { verses, index, swipingHorizontally, userSettings } = this.props;
-    const indexStyles = {
-      fontSize: `${userSettings.fontSize * 1.5}px`,
-    };
+    const { verses, index, swipingHorizontally } = this.props;
     const scrollingContainerStyles = {
       overflowY: swipingHorizontally ? 'hidden' : 'scroll',
     };
@@ -101,11 +98,7 @@ class Song extends React.Component {
           <SongIndexInput index={index} onBlur={this.handleChangeSong} />
           <VersesContainer>
             {verses.map(verse => (
-              <Verse
-                key={verse.index}
-                userSettings={this.props.userSettings}
-                {...verse}
-              />
+              <Verse key={verse.index} {...verse} />
             ))}
           </VersesContainer>
         </SongContainer>
