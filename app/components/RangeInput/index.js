@@ -47,8 +47,8 @@ function MyRangeInput({ label, value, onChange, valuePostfix }) {
         <RangeInput
           style={{ zIndex: 100, height: '100%' }}
           value={value}
-          min={15}
-          max={25}
+          min={10}
+          max={30}
           step={1}
           onChange={event => onChange(event.target.value)}
         />

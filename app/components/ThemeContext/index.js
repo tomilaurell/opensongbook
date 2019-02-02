@@ -17,6 +17,8 @@ export function ThemeProvider({ children }) {
           const ctx = JSON.parse(ctxString);
           const { fontSize: persistedFontSize } = ctx;
           setFontSize(persistedFontSize);
+        } else {
+          setFontSize(22);
         }
       } else {
         const persistObject = {

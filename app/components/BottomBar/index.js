@@ -27,8 +27,15 @@ export const MainContainer = styled.div`
   padding-right: 10px;
 `;
 
+const IconWrapper = styled.div`
+  width: 100%;
+`;
+
 const linkStyles = {
   display: 'flex',
+  justifyContent: 'center',
+  width: '100%',
+  backgroundColor: '#000000',
 };
 
 /* eslint-disable react/prefer-stateless-function */
