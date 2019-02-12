@@ -64,10 +64,11 @@ export const ContentContainer = styled.div`
   color: white;
   overflow-y: scroll;
   -webkit-overflow-scrolling: touch;
+  display: flex;
+  flex-wrap: wrap;
 `;
 
 export const BookContainer = styled.div`
-  float: left;
   margin-left: 10vw;
   margin-top: 5vh;
 `;
