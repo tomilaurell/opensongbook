@@ -13,6 +13,7 @@ import Slider from 'react-slick';
 import TopBar from 'components/TopBar';
 import BottomBar from 'components/BottomBar';
 import ChevronIcon from 'components/icons/ChevronIcon';
+import { SongContext } from 'components/SongContext';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import './index.css';
@@ -48,7 +49,7 @@ const ArrowContainerRight = styled.div`
   padding-left: 8px;
 `;
 
-export default class SongBook extends Component {
+class SongBook extends Component {
   state = {
     currentSlideIndex: 1,
     showBars: true,
@@ -79,6 +80,7 @@ export default class SongBook extends Component {
     } else if (navigateToSong > lastSong.index) {
       navigateToSong = lastSong.index;
     }
+    this.context.setCurrentSong(navigateToSong);
     const newPages = this.getNewPages(
       navigateToSong,
       this.state.currentSlideIndex,
@@ -186,6 +188,7 @@ export default class SongBook extends Component {
       afterChange: index => {
         const songIndex = this.getSelectedSongs()[index];
         const newPages = this.getNewPages(songIndex, index);
+        this.context.setCurrentSong(songIndex);
         this.setState({
           selectedSongIndexes: newPages,
           currentSlideIndex: index,
@@ -253,3 +256,7 @@ export default class SongBook extends Component {
 SongBook.propTypes = {
   currentSong: PropTypes.number.isRequired,
 };
+
+SongBook.contextType = SongContext;
+
+export default SongBook;

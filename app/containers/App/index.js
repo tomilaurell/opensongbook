@@ -17,6 +17,7 @@ import SearchPage from 'containers/SearchPage/Loadable';
 import SettingsPage from 'containers/SettingsPage/Loadable';
 import NotFoundPage from 'containers/NotFoundPage/Loadable';
 import { ThemeProvider } from 'components/ThemeContext';
+import { SongContextProvider } from 'components/SongContext';
 
 import GlobalStyle from '../../global-styles';
 
@@ -24,17 +25,19 @@ const App = function App() {
   return (
     <div>
       <ThemeProvider>
-        <Switch>
-          <Route exact path="/" component={SongPage} />
-          <Route exact path="/book" component={SongPage} />
-          <Route exact path="/book/:bookId" component={SongPage} />
-          <Route exact path="/book/:bookId/:songIndex" component={SongPage} />
-          <Route exact path="/library" component={LibraryPage} />
-          <Route exact path="/info" component={InfoPage} />
-          <Route exact path="/search" component={SearchPage} />
-          <Route exact path="/settings" component={SettingsPage} />
-          <Route component={NotFoundPage} />
-        </Switch>
+        <SongContextProvider>
+          <Switch>
+            <Route exact path="/" component={SongPage} />
+            <Route exact path="/book" component={SongPage} />
+            <Route exact path="/book/:bookId" component={SongPage} />
+            <Route exact path="/book/:bookId/:songIndex" component={SongPage} />
+            <Route exact path="/library" component={LibraryPage} />
+            <Route exact path="/info" component={InfoPage} />
+            <Route exact path="/search" component={SearchPage} />
+            <Route exact path="/settings" component={SettingsPage} />
+            <Route component={NotFoundPage} />
+          </Switch>
+        </SongContextProvider>
       </ThemeProvider>
       <GlobalStyle />
     </div>

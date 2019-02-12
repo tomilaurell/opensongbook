@@ -4,7 +4,7 @@
  *
  */
 
-import React from 'react';
+import React, { useEffect, useContext } from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -16,14 +16,11 @@ import { fetchBooksFromUrl } from 'containers/App/actions';
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
 import SongBook from 'components/SongBook';
+import { SongContext } from 'components/SongContext';
 import { fetchBook, cleanStore } from './actions';
 import { makeSelectBook } from './selectors';
 import reducer from './reducer';
 import saga from './saga';
-
-const userSettings = {
-  fontSize: 20,
-};
 
 export const MainContainer = styled.div`
   background-color: black;
@@ -31,39 +28,40 @@ export const MainContainer = styled.div`
   widht: 100vw;
 `;
 
-/* eslint-disable react/prefer-stateless-function */
-export class SongPage extends React.Component {
-  componentDidMount() {
-    const params = queryString.parse(this.props.location.search);
+const SongPage = function SongPage(props) {
+  const songContext = useContext(SongContext);
+  useEffect(() => {
+    const params = queryString.parse(props.location.search);
     const dataUrl = params.url;
     if (dataUrl) {
-      this.props.fetchBooks(dataUrl);
+      props.fetchBooks(dataUrl);
     } else {
-      const { bookId } = this.props.match.params;
-      this.props.fetchBook(bookId);
+      const { bookId } = props.match.params;
+      if (bookId) {
+        songContext.setCurrentSongBook(bookId);
+        props.fetchBook(bookId);
+      } else {
+        props.fetchBook(songContext.currentSongBook);
+      }
     }
-  }
+    return () => props.cleanStore();
+  }, []);
 
-  componentWillUnmount() {
-    this.props.cleanStore();
-  }
+  useEffect(() => {
+    const { songIndex } = props.match.params;
+    if (songIndex) {
+      songContext.setCurrentSong(parseInt(songIndex, 0));
+    }
+  }, []);
 
-  render() {
-    const { songIndex } = this.props.match.params;
-    const currentSong = parseInt(songIndex, 0) || 1;
-    return (
-      <MainContainer>
-        {this.props.songbook && (
-          <SongBook
-            {...this.props.songbook}
-            currentSong={currentSong}
-            userSettings={userSettings}
-          />
-        )}
-      </MainContainer>
-    );
-  }
-}
+  return (
+    <MainContainer>
+      {props.songbook && (
+        <SongBook {...props.songbook} currentSong={songContext.currentSong} />
+      )}
+    </MainContainer>
+  );
+};
 
 SongPage.propTypes = {
   book: PropTypes.object,
