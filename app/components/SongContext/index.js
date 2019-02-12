@@ -12,6 +12,14 @@ export function SongContextProvider({ children }) {
   const [currentSongBook, setCurrentSongBook] = useState();
   useEffect(
     () => {
+      updateContextParam(currentSongBook, setCurrentSongBook, 'songBookName');
+      updateCurrentSong(currentSongBook, setCurrentSong);
+      return null;
+    },
+    [currentSongBook],
+  );
+  useEffect(
+    () => {
       updateContextParam(
         currentSong,
         setCurrentSong,
@@ -21,14 +29,6 @@ export function SongContextProvider({ children }) {
       return null;
     },
     [currentSong],
-  );
-  useEffect(
-    () => {
-      updateContextParam(currentSongBook, setCurrentSongBook, 'songBookName');
-      updateCurrentSong(currentSongBook, setCurrentSong);
-      return null;
-    },
-    [currentSongBook],
   );
   return (
     <SongContext.Provider
