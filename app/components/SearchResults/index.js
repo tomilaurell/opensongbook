@@ -32,7 +32,11 @@ function SearchResults({ id, term, books }) {
   return (
     <MainContainer>
       {hits.map(hit => (
-        <SearchResult key={hit.index} term={term} song={hit} />
+        <SearchResult
+          key={`${hit.bookIndex} ${hit.index}`}
+          term={term}
+          song={hit}
+        />
       ))}
     </MainContainer>
   );
