@@ -4,7 +4,7 @@
  *
  */
 
-import React from 'react';
+import React, { useRef } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
@@ -31,19 +31,25 @@ const IndexInput = styled.input`
   }
 `;
 
-/* eslint-disable react/prefer-stateless-function */
-class SongIndexInput extends React.Component {
-  render() {
-    const { onBlur, index } = this.props;
-    return (
-      <IndexInput
-        id="changeSongInput"
-        type="number"
-        onBlur={onBlur}
-        placeholder={index}
-      />
-    );
+const onKeyPress = inputEl => e => {
+  if (e.key === 'Enter') {
+    inputEl.current.blur();
   }
+};
+
+/* eslint-disable react/prefer-stateless-function */
+function SongIndexInput({ onBlur, index }) {
+  const inputEl = useRef(null);
+  return (
+    <IndexInput
+      id="changeSongInput"
+      ref={inputEl}
+      type="number"
+      onBlur={onBlur}
+      onKeyPress={onKeyPress(inputEl)}
+      placeholder={index}
+    />
+  );
 }
 
 SongIndexInput.propTypes = {
