@@ -101,6 +101,8 @@ export const UrlInput = styled.input`
   color: white;
   font-size: 20px;
   align-self: center;
+  border: solid white 1px;
+  padding-left: 5px;
 `;
 
 /* eslint-disable react/prefer-stateless-function */

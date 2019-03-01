@@ -8,6 +8,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
+import { BookContainer } from '../LoaderBook';
 
 export const MainContainer = styled.div``;
 
@@ -20,7 +21,10 @@ function LibraryBook({ title, id, coverImage }) {
   return (
     <MainContainer>
       <Link to={linkToBook}>
-        <img src={`${coverImage}`} alt={title} style={coverStyles} />
+        {coverImage && (
+          <img src={`${coverImage}`} alt={title} style={coverStyles} />
+        )}
+        {!coverImage && <BookContainer>{title}</BookContainer>}
       </Link>
     </MainContainer>
   );
