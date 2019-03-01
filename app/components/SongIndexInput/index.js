@@ -36,7 +36,7 @@ function SongIndexInput({ onBlur, index }) {
   return (
     <IndexInput
       id="changeSongInput"
-      type="number"
+      type="tel"
       onBlur={onBlur}
       onKeyPress={e => {
         if (e.key === 'Enter') {
