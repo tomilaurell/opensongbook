@@ -47,6 +47,10 @@ export const persistBook = async (book, url) => {
   return null;
 };
 
+export const isLibraryFile = data => data && data.startsWith('Library:');
+
+export const getBooksUrlsOfLibrary = data => data.split('\n').slice(1);
+
 export const parseHymnBook = rawBook => {
   const rows = rawBook.split('\n');
   const rawSongs = [];

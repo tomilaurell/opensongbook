@@ -1,5 +1,10 @@
 import { UNSHORTENER_ENDPOINT } from 'containers/App/constants';
-import { parseHymnBook, persistBook } from './songService';
+import {
+  parseHymnBook,
+  persistBook,
+  isLibraryFile,
+  getBooksUrlsOfLibrary,
+} from './songService';
 
 const isRealUrl = url =>
   url &&
@@ -18,6 +23,18 @@ export function* loadAndPersistBook(url) {
   const { longUrl } = longUrlData;
   const response = yield fetch(longUrl);
   const data = yield response.text();
+  if (isLibraryFile) {
+    const booksUrls = getBooksUrlsOfLibrary(data);
+    let latestBookId;
+    // eslint-disable-next-line no-restricted-syntax
+    for (const bookUrl of booksUrls) {
+      const bookResponse = yield fetch(bookUrl);
+      const bookData = yield bookResponse.text();
+      const songBook = parseHymnBook(bookData);
+      latestBookId = yield persistBook(songBook, url);
+    }
+    return latestBookId;
+  }
   const songBook = parseHymnBook(data);
   const bookId = yield persistBook(songBook, url);
   return bookId;
