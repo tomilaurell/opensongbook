@@ -145,8 +145,14 @@ export class LibraryPage extends React.Component {
               Type short link to the book and close modal.
             </UrlHelpText>
             <UrlInput
+              ref={this.inputEl}
               type="url"
               onBlur={this.handleAddBook}
+              onKeyPress={e => {
+                if (e.key === 'Enter') {
+                  e.target.blur();
+                }
+              }}
               placeholder="something"
             />
           </ModalContent>
