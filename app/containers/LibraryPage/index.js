@@ -15,9 +15,11 @@ import queryString from 'query-string';
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
 import BottomBar from 'components/BottomBar';
+import { Link } from 'react-router-dom';
 import LibraryBook from 'components/LibraryBook';
 import LoaderBook from 'components/LoaderBook';
 import PlusIcon from 'components/icons/PlusIcon';
+import ShareIcon from 'components/icons/ShareIcon';
 import JwModal from 'jw-react-modal';
 import { fetchBooksFromUrl } from 'containers/App/actions';
 import { makeSelectBooks, makeSelectFetchingBooksStatus } from './selectors';
@@ -47,6 +49,14 @@ export const TitleContainer = styled.div`
   text-align: center;
   height: 60px;
   border-bottom: solid 2px #2b2b2b;
+`;
+
+export const ShareIconContainer = styled.div`
+  position: fixed;
+  top: 20px;
+  left: 10px;
+  cursor: pointer;
+  z-index: 100;
 `;
 
 export const PlusIconContainer = styled.div`
@@ -113,7 +123,6 @@ export class LibraryPage extends React.Component {
   }
 
   openAddBookModal = event => {
-    console.log('openAddBookModal');
     JwModal.open('jw-modal-1');
   };
 
@@ -135,6 +144,11 @@ export class LibraryPage extends React.Component {
     const dataUrl = params.url;
     return (
       <MainContainer>
+        <ShareIconContainer>
+          <Link to="/share">
+            <ShareIcon />
+          </Link>
+        </ShareIconContainer>
         <TitleContainer>Open Songbook</TitleContainer>
         <PlusIconContainer>
           <PlusIcon onClick={JwModal.open('jw-modal-1')} />

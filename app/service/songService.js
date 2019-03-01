@@ -51,6 +51,9 @@ export const isLibraryFile = data => data && data.startsWith('Library:');
 
 export const getBooksUrlsOfLibrary = data => data.split('\n').slice(1);
 
+export const generateTinyUrl = urlPostfix =>
+  `https://tinyurl.com/opensongbook-${urlPostfix}`;
+
 export const parseHymnBook = rawBook => {
   const rows = rawBook.split('\n');
   const rawSongs = [];

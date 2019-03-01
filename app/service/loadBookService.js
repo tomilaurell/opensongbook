@@ -4,6 +4,7 @@ import {
   persistBook,
   isLibraryFile,
   getBooksUrlsOfLibrary,
+  generateTinyUrl,
 } from './songService';
 
 const isRealUrl = url =>
@@ -13,9 +14,7 @@ const isRealUrl = url =>
     url.startsWith('www.'));
 
 export function* loadAndPersistBook(url) {
-  const targetUrl = isRealUrl(url)
-    ? url
-    : `https://tinyurl.com/opensongbook-${url}`;
+  const targetUrl = isRealUrl(url) ? url : generateTinyUrl(url);
   const longUrlResponse = yield fetch(
     `${UNSHORTENER_ENDPOINT}?url=${targetUrl}`,
   );

@@ -11,12 +11,13 @@ import { Icon } from 'semantic-ui-react';
 
 export const MainContainer = styled.div`
   color: #ffffff;
+  font-size: 18px;
 `;
 
 function ShareIcon() {
   return (
     <MainContainer>
-      <Icon name="share square" />
+      <Icon name="share alternate" />
     </MainContainer>
   );
 }
