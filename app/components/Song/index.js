@@ -9,6 +9,7 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import Verse from 'components/Verse';
 import SongIndexInput from 'components/SongIndexInput';
+import EndOfSongIcon from 'components/icons/EndOfSongIcon';
 import ReactDOM from 'react-dom';
 import { withOnScroll } from 'components/ScrollDetector';
 import './modal.css';
@@ -27,7 +28,7 @@ export const SongContainer = styled.div`
   padding-left: 25px;
   padding-right: 25px;
   padding-top: 60px;
-  padding-bottom: 130px;
+  padding-bottom: 80px;
   min-height: calc(100vh + 2px);
   color: white;
   background-color: black;
@@ -36,6 +37,10 @@ export const SongContainer = styled.div`
 `;
 
 export const VersesContainer = styled.div`
+  align-self: center;
+`;
+
+export const EndOfSongContainer = styled.div`
   align-self: center;
 `;
 
@@ -101,6 +106,9 @@ class Song extends React.Component {
               <Verse key={verse.index} {...verse} />
             ))}
           </VersesContainer>
+          <EndOfSongContainer>
+            <EndOfSongIcon />
+          </EndOfSongContainer>
         </SongContainer>
       </ScrollingContainer>
     );
