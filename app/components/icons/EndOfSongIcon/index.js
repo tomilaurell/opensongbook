@@ -15,7 +15,7 @@ export const MainContainer = styled.div`
 export default function EndOfSongIcon() {
   const styles = {
     marginTop: '20px',
-    width: '50%',
+    width: '35%',
     border: 'none',
   };
   return (

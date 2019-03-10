@@ -32,7 +32,10 @@ export const persistBook = async (book, url) => {
     dbBook => dbBook.title === book.title,
   );
   if (existingBookWithSameName) {
-    if (existingBookWithSameName.checksum === book.checksum) {
+    if (
+      existingBookWithSameName.checksum === book.checksum &&
+      existingBookWithSameName.url === book.url
+    ) {
       console.log('Checksum match, no need to update');
       return existingBookWithSameName.id;
     }

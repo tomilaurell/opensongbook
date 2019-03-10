@@ -22,7 +22,8 @@ export function* loadAndPersistBook(url) {
   const { longUrl } = longUrlData;
   const response = yield fetch(longUrl);
   const data = yield response.text();
-  if (isLibraryFile) {
+  if (isLibraryFile(data)) {
+    console.log('Handle library file');
     const booksUrls = getBooksUrlsOfLibrary(data);
     let latestBookId;
     // eslint-disable-next-line no-restricted-syntax
@@ -34,6 +35,7 @@ export function* loadAndPersistBook(url) {
     }
     return latestBookId;
   }
+  console.log('Handle book file');
   const songBook = parseHymnBook(data);
   const bookId = yield persistBook(songBook, url);
   return bookId;
