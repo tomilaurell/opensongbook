@@ -36,6 +36,7 @@ function SongIndexInput({ onBlur, index }) {
   return (
     <IndexInput
       id="changeSongInput"
+      autocomplete="off"
       type="tel"
       onBlur={onBlur}
       onKeyPress={e => {
