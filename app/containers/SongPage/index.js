@@ -57,7 +57,10 @@ const SongPage = function SongPage(props) {
   return (
     <MainContainer>
       {props.songbook && (
-        <SongBook {...props.songbook} currentSong={songContext.currentSong} />
+        <SongBook
+          {...props.songbook}
+          currentSong={songContext.currentSong || 1}
+        />
       )}
     </MainContainer>
   );
