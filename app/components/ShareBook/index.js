@@ -7,8 +7,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import QRCode from 'qrcode.react';
+import { QRCode } from 'react-qr-svg';
 import { Link } from 'react-router-dom';
+import { generateShareUrl } from '../../service/songService';
 
 export const MainContainer = styled.div``;
 
@@ -29,6 +30,8 @@ const coverStyles = {
 };
 
 function ShareBook({ title, id, coverImage, url }) {
+  const shareUrl = getShareUrl(url);
+  console.log(`shareUrl: ${shareUrl}`);
   const linkToBook = `/share/book/${id}`;
   return (
     <MainContainer>
@@ -36,12 +39,26 @@ function ShareBook({ title, id, coverImage, url }) {
         <BookContainer>
           <img src={`${coverImage}`} alt={title} style={coverStyles} />
           <QrContainer>
-            <QRCode value={url} size={64} />
+            <QRCode
+              value={shareUrl}
+              style={{ width: 64 }}
+              fgColor="#ffffff"
+              bgColor="#000000"
+              level="L"
+            />
           </QrContainer>
         </BookContainer>
       </Link>
     </MainContainer>
   );
+}
+
+export function getShareUrl(url) {
+  const href = window.location.href;
+  const baseUrl = href.substring(0, href.indexOf('/share'));
+  const shareUrl = generateShareUrl(baseUrl, url);
+  console.log(`Generating share url for ${url} resulted ${shareUrl}`);
+  return shareUrl;
 }
 
 ShareBook.propTypes = {

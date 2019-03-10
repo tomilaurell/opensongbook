@@ -7,9 +7,10 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import BottomBar from 'components/BottomBar';
-import QRCode from 'qrcode.react';
+import { QRCode } from 'react-qr-svg';
 import { Link } from 'react-router-dom';
-import { getBook, generateTinyUrl } from '../../service/songService';
+import { getShareUrl } from 'components/ShareBook';
+import { getBook } from '../../service/songService';
 
 import { MainContainer } from '../LibraryPage';
 
@@ -98,7 +99,13 @@ function ShareBookPage(props) {
           <ShortLinkTitleContainer>Short link:</ShortLinkTitleContainer>
           <ShortLinkContainer>{book.url}</ShortLinkContainer>
           <QrCodeContainer>
-            <QRCode value={generateTinyUrl(book.url)} size={200} />
+            <QRCode
+              value={getShareUrl(book.url)}
+              style={{ width: 256 }}
+              fgColor="#ffffff"
+              bgColor="#000000"
+              level="H"
+            />
           </QrCodeContainer>
         </ContentContainer>
       )}
