@@ -17,6 +17,7 @@ import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
 import SongBook from 'components/SongBook';
 import { SongContext } from 'components/SongContext';
+import { getLibrary } from 'service/songService';
 import { fetchBook, cleanStore } from './actions';
 import { makeSelectBook } from './selectors';
 import reducer from './reducer';
@@ -30,6 +31,7 @@ export const MainContainer = styled.div`
 
 const SongPage = function SongPage(props) {
   const songContext = useContext(SongContext);
+
   useEffect(() => {
     const params = queryString.parse(props.location.search);
     const dataUrl = params.url;
@@ -40,13 +42,18 @@ const SongPage = function SongPage(props) {
       if (bookId) {
         songContext.setCurrentSongBook(bookId);
         props.fetchBook(bookId);
-      } else {
+      } else if (songContext.currentSongBook) {
         props.fetchBook(songContext.currentSongBook);
+      } else {
+        // If nothing works, fetch the first book
+        props.fetchBook(0);
       }
     }
     return () => props.cleanStore();
   }, []);
 
+  // This will update current song to songIndex when we directly arrive to a song
+  // The most common use case is when user clicks search result
   useEffect(() => {
     const { songIndex } = props.match.params;
     if (songIndex) {
@@ -57,10 +64,7 @@ const SongPage = function SongPage(props) {
   return (
     <MainContainer>
       {props.songbook && (
-        <SongBook
-          {...props.songbook}
-          currentSong={songContext.currentSong || 1}
-        />
+        <SongBook {...props.songbook} currentSong={songContext.currentSong} />
       )}
     </MainContainer>
   );

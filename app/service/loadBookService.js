@@ -31,7 +31,10 @@ export function* loadAndPersistBook(url) {
       const bookResponse = yield fetch(bookUrl);
       const bookData = yield bookResponse.text();
       const songBook = parseHymnBook(bookData);
-      latestBookId = yield persistBook(songBook, url);
+      const bookId = yield persistBook(songBook, url);
+      if (bookId) {
+        latestBookId = bookId;
+      }
     }
     return latestBookId;
   }
