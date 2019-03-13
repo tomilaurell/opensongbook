@@ -1,8 +1,19 @@
 import { from } from 'rxjs';
 import { filter, map, flatMap } from 'rxjs/operators';
 
+export function removeSpecials(str) {
+  const lower = str.toLowerCase();
+  const upper = str.toUpperCase();
+
+  let res = '';
+  for (let i = 0; i < lower.length; ++i) {
+    if (lower[i] !== upper[i] || lower[i].trim() === '') res += str[i];
+  }
+  return res;
+}
+
 export const searchSongs = (books, term) => {
-  const lowCaseTerm = term.toLowerCase();
+  const lowCaseTerm = removeSpecials(term.toLowerCase());
   const stream = from(books).pipe(
     map(book =>
       book.songs.map(song => {
@@ -16,7 +27,8 @@ export const searchSongs = (books, term) => {
     filter(song => {
       const matchedVerse = song.verses.find(verse =>
         verse.sentences.find(
-          sentence => sentence.toLowerCase().search(lowCaseTerm) >= 0,
+          sentence =>
+            removeSpecials(sentence.toLowerCase()).search(lowCaseTerm) >= 0,
         ),
       );
       return !!matchedVerse;

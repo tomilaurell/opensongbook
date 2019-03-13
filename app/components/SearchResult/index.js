@@ -9,6 +9,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
+import { removeSpecials } from 'service/searchService';
 
 const MainContainer = styled.div`
   background-color: #1a1a1a;
@@ -46,28 +47,29 @@ function stripTrailingSpecialCharacters(text) {
   return text.replace(/[\\.,\\:]+$/, '');
 }
 
-function getIndicesOf(searchStr, str, caseSensitive) {
-  const searchStrLen = searchStr.length;
+function getIndicesOf(origSearchStr, origStr) {
+  const searchStrLen = origSearchStr.length;
   if (searchStrLen === 0) {
     return [];
   }
   let startIndex = 0;
   let index;
   const indices = [];
-  if (!caseSensitive) {
-    str = str.toLowerCase();
-    searchStr = searchStr.toLowerCase();
-  }
+
+  const str = removeSpecials(origStr.toLowerCase());
+  const searchStr = removeSpecials(origSearchStr.toLowerCase());
+
   // eslint-disable-next-line no-cond-assign
   while ((index = str.indexOf(searchStr, startIndex)) > -1) {
     indices.push(index);
     startIndex = index + searchStrLen;
   }
+
   return indices;
 }
 
 function getLineObject(term, sentence) {
-  const hits = getIndicesOf(term, sentence, false);
+  const hits = getIndicesOf(term, sentence);
   const line = [];
   let startIndex = 0;
   let i;
@@ -78,8 +80,16 @@ function getLineObject(term, sentence) {
         bold: false,
       });
     }
-    const endIndex = hits[i] + term.length;
-    const text = sentence.substring(hits[i], endIndex);
+
+    let endIndex = hits[i] + term.length;
+    let text = sentence.substring(hits[i], endIndex);
+    const removedCharacterCount = text.length - removeSpecials(text).length;
+    // Highlight also characters that are removed in actual search
+    if (removedCharacterCount > 0) {
+      endIndex += removedCharacterCount;
+      text = sentence.substring(hits[i], endIndex);
+    }
+
     line.push({
       text,
       bold: true,
