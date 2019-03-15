@@ -3,22 +3,46 @@ import db from './mydatabase';
 
 export const getSong = (book, index) => {};
 
+function dynamicSort(property) {
+  let sortOrder = 1;
+  if (property[0] === '-') {
+    sortOrder = -1;
+    property = property.substr(1);
+  }
+  // eslint-disable-next-line func-names
+  return function(a, b) {
+    if (!a[property] && !b[property]) {
+      return 0;
+    }
+    if (!a[property]) {
+      return -sortOrder;
+    }
+    if (!b[property]) {
+      return sortOrder;
+    }
+    const result =
+      // eslint-disable-next-line no-nested-ternary
+      a[property] < b[property] ? -1 : a[property] > b[property] ? 1 : 0;
+    return result * sortOrder;
+  };
+}
+
 export const getLibrary = async () => {
   const books = await db.table('books').toArray();
   if (books.length === 0) {
     books.push(generateSongBook());
   }
-  return books;
+  const sortedBooks = books.sort(dynamicSort('-openCounter'));
+  return sortedBooks;
 };
 
 export const getBook = async id => {
-  // FIXME : should use id in query
-  const books = await db.table('books').toArray();
-  const book = books.find(dbBook => Number(dbBook.id) === Number(id));
-  if (book) {
-    return book;
-  }
-  if (books.length > 0) {
+  const books = await db
+    .table('books')
+    .where('id')
+    .equals(parseInt(id, 0))
+    .toArray();
+  if (books && books.length > 0) {
     return books[0];
   }
   return generateSongBook();
@@ -35,10 +59,21 @@ export const deletePersistedBook = async id => {
   console.log('Book deleted result', result);
 };
 
+export async function increaseBookOpenCounter(id) {
+  const book = await getBook(id);
+  let counter = 1;
+  if (book.openCounter) {
+    counter += book.openCounter;
+  }
+  book.openCounter = counter;
+  await db.books.update(parseInt(id, 0), book);
+}
+
 export const persistBook = async (book, url) => {
   book.checksum = crc32(JSON.stringify(book));
   book.url = url;
   book.created = new Date();
+  book.openCounter = 0;
   const books = await db.table('books').toArray();
   const existingBookWithSameName = books.find(
     dbBook => dbBook.title === book.title,
@@ -52,7 +87,7 @@ export const persistBook = async (book, url) => {
       return existingBookWithSameName.id;
     }
     console.log('Updating book', existingBookWithSameName.id);
-    db.books.update(existingBookWithSameName.id, book);
+    await db.books.update(existingBookWithSameName.id, book);
     console.log('Book updated', existingBookWithSameName.id);
     return existingBookWithSameName.id;
   }

@@ -4,7 +4,7 @@ import {
   FETCH_BOOKS_FROM_URL_FAILURE,
 } from 'containers/App/constants';
 import { loadAndPersistBook } from '../../service/loadBookService';
-import { getBook } from '../../service/songService';
+import { getBook, increaseBookOpenCounter } from '../../service/songService';
 
 import {
   FETCH_BOOK,
@@ -18,6 +18,7 @@ function* fetchBookSaga(action) {
   try {
     const book = yield call(getBook, id);
     yield put({ type: FETCH_BOOK_SUCCESS, payload: book });
+    yield call(increaseBookOpenCounter, id);
   } catch (errorMessage) {
     yield put({ type: FETCH_BOOK_FAILURE, errorMessage });
   }
