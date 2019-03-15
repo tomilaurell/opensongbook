@@ -38,6 +38,7 @@ export const deletePersistedBook = async id => {
 export const persistBook = async (book, url) => {
   book.checksum = crc32(JSON.stringify(book));
   book.url = url;
+  book.created = new Date();
   const books = await db.table('books').toArray();
   const existingBookWithSameName = books.find(
     dbBook => dbBook.title === book.title,

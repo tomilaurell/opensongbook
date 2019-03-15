@@ -18,6 +18,7 @@ import { Link } from 'react-router-dom';
 import { getShareUrl } from 'components/ShareBook';
 import TrashIcon from 'components/icons/TrashIcon';
 import JwModal from 'jw-react-modal';
+import { format } from 'date-fns';
 import { getBook, deletePersistedBook } from '../../service/songService';
 import reducer from './reducer';
 import saga from './saga';
@@ -121,6 +122,12 @@ const ConfirmationButtonRow = styled.div`
   margin-top: 30px;
 `;
 
+const DateText = styled.div`
+  margin-top: 10px;
+  font-size: 16px;
+  font-weight: 600;
+`;
+
 function ShareBookPage(props) {
   const [book, setBook] = useState();
   const { bookId } = props.match.params;
@@ -138,6 +145,8 @@ function ShareBookPage(props) {
     window.location.href = `${href.substring(0, href.indexOf('/share'))}/share`;
   };
   */
+
+  if (book) console.log('Created ', book.created);
 
   return (
     <MainContainer>
@@ -183,6 +192,10 @@ function ShareBookPage(props) {
                 level="H"
               />
             </QrCodeContainer>
+            {book &&
+              book.created && (
+                <DateText>{format(book.created, 'DD.MM.YYYY')}</DateText>
+              )}
           </CenteredContainer>
         </ContentContainer>
       )}
