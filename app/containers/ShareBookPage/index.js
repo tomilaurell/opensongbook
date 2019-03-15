@@ -46,8 +46,10 @@ const TitleText = styled.div`
 `;
 
 const ContentContainer = styled.div`
-  margin-top: 60px;
+  position: absolute;
   height: 100vh;
+  width: 100vw;
+  top: 60px;
   padding-bottom: 140px;
   background-color: black;
   color: white;
@@ -55,11 +57,17 @@ const ContentContainer = styled.div`
   -webkit-overflow-scrolling: touch;
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  align-items: center;
+`;
+
+const CenteredContainer = styled.div`
+  display: flex;
+  flex-direction: column;
   align-items: center;
 `;
 
 const ShortLinkTitleContainer = styled.div`
-  padding-top: 30%;
   font-size: 18px;
   font-weight: 600;
 `;
@@ -71,7 +79,8 @@ const ShortLinkContainer = styled.div`
 `;
 
 const QrCodeContainer = styled.div`
-  padding-top: 30%;
+  padding-top: 80px;
+  padding-bottom: 30px;
 `;
 
 function ShareBookPage(props) {
@@ -96,17 +105,19 @@ function ShareBookPage(props) {
       </TitleContainer>
       {book && (
         <ContentContainer>
-          <ShortLinkTitleContainer>Short link:</ShortLinkTitleContainer>
-          <ShortLinkContainer>{book.url}</ShortLinkContainer>
-          <QrCodeContainer>
-            <QRCode
-              value={getShareUrl(book.url)}
-              style={{ width: 256 }}
-              fgColor="#ffffff"
-              bgColor="#000000"
-              level="H"
-            />
-          </QrCodeContainer>
+          <CenteredContainer>
+            <ShortLinkTitleContainer>Short link:</ShortLinkTitleContainer>
+            <ShortLinkContainer>{book.url}</ShortLinkContainer>
+            <QrCodeContainer>
+              <QRCode
+                value={getShareUrl(book.url)}
+                style={{ width: 256 }}
+                fgColor="#ffffff"
+                bgColor="#000000"
+                level="H"
+              />
+            </QrCodeContainer>
+          </CenteredContainer>
         </ContentContainer>
       )}
       <BottomBar currentPage="library" showBars />
