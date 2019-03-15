@@ -31,7 +31,6 @@ const coverStyles = {
 
 function ShareBook({ title, id, coverImage, url }) {
   const shareUrl = getShareUrl(url);
-  console.log(`shareUrl: ${shareUrl}`);
   const linkToBook = `/share/book/${id}`;
   return (
     <MainContainer>
@@ -57,7 +56,6 @@ export function getShareUrl(url) {
   const href = window.location.href;
   const baseUrl = href.substring(0, href.indexOf('/share'));
   const shareUrl = generateShareUrl(baseUrl, url);
-  console.log(`Generating share url for ${url} resulted ${shareUrl}`);
   return shareUrl;
 }
 

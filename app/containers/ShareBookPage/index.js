@@ -5,12 +5,23 @@
  */
 
 import React, { useState, useEffect } from 'react';
+import { connect } from 'react-redux';
+import { createStructuredSelector } from 'reselect';
+import { compose } from 'redux';
+import injectSaga from 'utils/injectSaga';
+import injectReducer from 'utils/injectReducer';
 import styled from 'styled-components';
 import BottomBar from 'components/BottomBar';
+import Button from 'components/Button';
 import { QRCode } from 'react-qr-svg';
 import { Link } from 'react-router-dom';
 import { getShareUrl } from 'components/ShareBook';
-import { getBook } from '../../service/songService';
+import TrashIcon from 'components/icons/TrashIcon';
+import JwModal from 'jw-react-modal';
+import { getBook, deletePersistedBook } from '../../service/songService';
+import reducer from './reducer';
+import saga from './saga';
+import { deleteBook } from './actions';
 
 import { MainContainer } from '../LibraryPage';
 
@@ -20,29 +31,38 @@ const TitleContainer = styled.div`
   background-color: black;
   padding-top: 10px;
   padding-bottom: 10px;
+  padding-left: 10px;
+  padding-right: 10px;
   width: 100%;
   text-align: center;
   height: 40px;
   border-bottom: solid 2px #2b2b2b;
+  display: flex;
+  justify-content: space-between;
 `;
 
 const BackLinkContainer = styled.div`
-  float: left;
-  bottom: 20px;
-  position: relative;
-  left: 10px;
+  width: 25%;
 `;
 
 const BackLink = styled.div`
   color: white;
   font-size: 16px;
   font-weight: 600;
+  width: 50%;
 `;
 
 const TitleText = styled.div`
   color: white;
   font-size: 16px;
   font-weight: 600;
+  font-weight: bold;
+`;
+
+const TrashIconContainer = styled.div`
+  width: 25%;
+  display: flex;
+  justify-content: flex-end;
 `;
 
 const ContentContainer = styled.div`
@@ -83,6 +103,24 @@ const QrCodeContainer = styled.div`
   padding-bottom: 30px;
 `;
 
+const ModalContent = styled.div`
+  padding-top: 30px;
+  padding-bottom: 30px;
+`;
+
+const ConfirmationText = styled.div`
+  color: white;
+  font-size: 20px;
+  line-height: 25px;
+  text-align: center;
+`;
+
+const ConfirmationButtonRow = styled.div`
+  display: flex;
+  justify-content: space-around;
+  margin-top: 30px;
+`;
+
 function ShareBookPage(props) {
   const [book, setBook] = useState();
   const { bookId } = props.match.params;
@@ -92,17 +130,45 @@ function ShareBookPage(props) {
       setBook(bookData);
     })();
   }, []);
+  /*
+  const deleteBookHandler = async event => {
+    await deletePersistedBook(bookId);
+    JwModal.close('jw-modal-1')(event);
+    const href = window.location.href;
+    window.location.href = `${href.substring(0, href.indexOf('/share'))}/share`;
+  };
+  */
 
   return (
     <MainContainer>
       <TitleContainer>
-        <TitleText>Share Book</TitleText>
         <BackLinkContainer>
           <Link to="/share">
             <BackLink>Ready</BackLink>
           </Link>
         </BackLinkContainer>
+        <TitleText>Share Book</TitleText>
+        <TrashIconContainer>
+          <TrashIcon onClick={JwModal.open('jw-modal-1')} />
+        </TrashIconContainer>
       </TitleContainer>
+      <JwModal id="jw-modal-1">
+        <ModalContent>
+          <ConfirmationText>
+            Are you sure you want to remove this book?
+          </ConfirmationText>
+          <ConfirmationButtonRow>
+            <Button
+              value="No, keep it!"
+              onClick={JwModal.close('jw-modal-1')}
+            />
+            <Button
+              value="Yes, delete."
+              onClick={() => props.deleteBook(bookId)}
+            />
+          </ConfirmationButtonRow>
+        </ModalContent>
+      </JwModal>
       {book && (
         <ContentContainer>
           <CenteredContainer>
@@ -125,4 +191,25 @@ function ShareBookPage(props) {
   );
 }
 
-export default ShareBookPage;
+const mapStateToProps = createStructuredSelector({});
+
+function mapDispatchToProps(dispatch) {
+  return {
+    deleteBook: id => dispatch(deleteBook(id)),
+    dispatch,
+  };
+}
+
+const withConnect = connect(
+  mapStateToProps,
+  mapDispatchToProps,
+);
+
+const withReducer = injectReducer({ key: 'shareBookPage', reducer });
+const withSaga = injectSaga({ key: 'shareBookPage', saga });
+
+export default compose(
+  withReducer,
+  withSaga,
+  withConnect,
+)(ShareBookPage);

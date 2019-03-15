@@ -1,27 +1,27 @@
 /**
  *
- * FontIcon
+ * TrashIcon
  *
  */
 
 import React from 'react';
-// import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { Icon } from 'semantic-ui-react';
 
 export const MainContainer = styled.div`
-  color: #ffffff;
+  align-self: center;
   font-size: 18px;
 `;
 
-function ShareIcon(props) {
+function TrashIcon(props) {
+  const styles = {
+    color: '#ffffff',
+  };
   return (
-    <MainContainer>
-      <Icon name="share alternate" {...props} />
+    <MainContainer style={styles} {...props}>
+      <Icon name="trash" />
     </MainContainer>
   );
 }
 
-ShareIcon.propTypes = {};
-
-export default ShareIcon;
+export default TrashIcon;

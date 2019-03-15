@@ -24,6 +24,17 @@ export const getBook = async id => {
   return generateSongBook();
 };
 
+export const deletePersistedBook = async id => {
+  const intId = parseInt(id, 0);
+  // const result = await db.table('books').delete(id);
+  const result = await db
+    .table('books')
+    .where('id')
+    .equals(intId)
+    .delete();
+  console.log('Book deleted result', result);
+};
+
 export const persistBook = async (book, url) => {
   book.checksum = crc32(JSON.stringify(book));
   book.url = url;
